@@ -1,0 +1,1055 @@
+<!doctype html>
+<html lang="vi" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AGM MD5 FLOATING ANALYZER - Dashboard & Simulator</title>
+    <!-- Tailwind CSS v4 Browser Compiler -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <style>
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #050810;
+        color: #e2e8f0;
+      }
+      .font-space {
+        font-family: 'Space Grotesk', sans-serif;
+      }
+      .font-mono {
+        font-family: 'JetBrains Mono', monospace;
+      }
+      /* Custom Scrollbars */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.02);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255, 255, 255, 0.2);
+      }
+    </style>
+  </head>
+  <body class="min-h-full flex flex-col p-4 md:p-8 select-none overflow-x-hidden relative">
+    
+    <!-- Background Gradient Glows -->
+    <div class="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="w-full max-w-7xl mx-auto flex-1 flex flex-col gap-6 z-10">
+      
+      <!-- HEADER -->
+      <header id="header-section" class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 pb-4 gap-4">
+        <div class="flex flex-col">
+          <h1 class="text-2xl md:text-3xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400 font-space uppercase">
+            AGM MD5 FLOATING ANALYZER
+          </h1>
+          <p class="text-[11px] font-mono text-gray-500 uppercase tracking-widest mt-1">
+            com.agmnetwork.md5analyzer • Companion Web Server & Dashboard v2.4.0
+          </p>
+        </div>
+        <div class="flex gap-4 items-center self-stretch md:self-auto justify-between md:justify-end border-t border-white/5 pt-3 md:pt-0 md:border-none">
+          <div class="flex flex-col items-end">
+            <span class="text-[9px] uppercase text-gray-500 font-bold tracking-wider">Trạng thái hệ thống</span>
+            <div class="flex items-center gap-2 mt-0.5">
+              <span class="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span>
+              <span class="text-xs font-bold uppercase tracking-wide text-emerald-400">CORE SERVICE ACTIVE</span>
+            </div>
+          </div>
+          <div class="h-8 w-[1px] bg-white/10 mx-1 hidden sm:block"></div>
+          <div id="access-badge" class="px-3.5 py-1.5 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all">
+            <span class="material-symbols-outlined text-sm">lock</span>
+            <span>UNVERIFIED ACCESS</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN BENTO GRID -->
+      <main class="grid grid-cols-1 lg:grid-cols-12 gap-5 flex-1">
+        
+        <!-- CARD 1: KEY MANAGEMENT -->
+        <section id="key-card" class="lg:col-span-4 bg-[#0f172a] border border-white/5 rounded-2xl p-6 flex flex-col gap-5 shadow-2xl relative overflow-hidden transition-all duration-300 hover:border-white/10">
+          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-blue-400"></div>
+          <div class="flex justify-between items-center">
+            <h2 class="text-base font-bold text-white tracking-tight flex items-center gap-2">
+              <span class="material-symbols-outlined text-blue-400 text-lg">vpn_key</span>
+              Quản lý Access Key
+            </h2>
+            <span class="text-[9px] bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded border border-blue-500/30 font-bold tracking-wider uppercase">MANDATORY</span>
+          </div>
+
+          <div class="flex flex-col gap-4 flex-1 justify-between">
+            <div class="space-y-4">
+              <!-- Inst ID Display -->
+              <div class="flex justify-between items-center bg-black/30 border border-white/5 rounded-lg px-3 py-2 text-xs">
+                <span class="text-gray-400 font-semibold">Mã Thiết Bị (ID):</span>
+                <span id="inst-id-display" class="font-mono text-blue-400 font-bold">8821-44af-8882</span>
+              </div>
+
+              <!-- Key Input -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Nhập Key kích hoạt</label>
+                <div class="relative">
+                  <input id="key-input" type="text" placeholder="AGM-XXXXXX" class="w-full bg-[#050810] border border-white/10 rounded-xl p-3 pl-10 font-mono text-emerald-400 placeholder:text-white/15 focus:outline-none focus:border-blue-500 transition-all uppercase" value="">
+                  <span class="material-symbols-outlined absolute left-3 top-3.5 text-gray-500 text-base">lock_open</span>
+                </div>
+              </div>
+
+              <!-- Verification Actions -->
+              <div class="grid grid-cols-2 gap-3">
+                <button id="btn-verify-key" class="bg-blue-600 hover:bg-blue-500 active:scale-98 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wider shadow-lg shadow-blue-600/20 cursor-pointer transition-all flex items-center justify-center gap-1">
+                  <span class="material-symbols-outlined text-sm">verified_user</span>
+                  Kích hoạt Key
+                </button>
+                <button id="btn-get-key" class="bg-white/5 border border-white/10 hover:bg-white/10 active:scale-98 text-white py-3 rounded-xl font-bold text-xs uppercase tracking-wider cursor-pointer transition-all flex items-center justify-center gap-1">
+                  <span class="material-symbols-outlined text-sm">link</span>
+                  Lấy Key mới
+                </button>
+              </div>
+
+              <!-- Expiration Progress -->
+              <div id="expiration-box" class="p-4 bg-white/[0.02] border border-white/5 rounded-xl hidden transition-all">
+                <div class="flex justify-between items-center text-xs mb-2">
+                  <span class="text-gray-400 font-semibold">Thời hạn phiên key:</span>
+                  <span id="timer-display" class="font-mono text-emerald-400 font-bold">02:00:00</span>
+                </div>
+                <div class="w-full bg-white/5 h-2 rounded-full overflow-hidden">
+                  <div id="progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-full w-[100%] transition-all duration-1000"></div>
+                </div>
+              </div>
+
+              <!-- Server Return Card (Interactive Details) -->
+              <div id="key-detail-box" class="p-4 bg-blue-500/5 border border-blue-500/10 rounded-xl text-xs hidden animate-fadeIn">
+                <div class="font-bold text-blue-400 uppercase tracking-wider text-[10px] mb-2 flex items-center gap-1">
+                  <span class="material-symbols-outlined text-xs">info</span> Thông tin Link4m vừa tạo
+                </div>
+                <div class="space-y-1.5 text-gray-300 font-mono text-[11px] leading-relaxed break-all">
+                  <div><span class="text-gray-500">Key:</span> <span class="text-emerald-400 font-bold" id="detail-key">AGM-XXXXXX</span></div>
+                  <div><span class="text-gray-500">Bypass link:</span> <a id="detail-link" href="#" target="_blank" class="text-blue-400 underline hover:text-blue-300">Click để vượt link</a></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-white/5">
+              <p class="text-[10px] text-gray-500 leading-normal italic">
+                * Key kích hoạt được tạo thông qua bộ rút gọn link kiếm tiền Link4m để duy trì hệ thống. Mỗi Key có thời gian sử dụng trong vòng 2 giờ liên tục.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARD 2: LIVE SIMULATION -->
+        <section id="simulation-card" class="lg:col-span-8 bg-[#0f172a] border border-white/5 rounded-2xl p-6 flex flex-col gap-4 shadow-2xl relative transition-all duration-300 hover:border-white/10">
+          <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 to-teal-400"></div>
+          <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 border-b border-white/5 pb-4">
+            <div>
+              <h2 class="text-base font-bold text-white tracking-tight flex items-center gap-2">
+                <span class="material-symbols-outlined text-emerald-400 text-lg">science</span>
+                Mô Phỏng Phân Tích Thuật Toán MD5
+              </h2>
+              <p class="text-[11px] text-gray-400 mt-0.5">Bản chính xác 100% so với mã nguồn ứng dụng Android</p>
+            </div>
+            <div class="flex gap-2 self-start sm:self-auto">
+              <span class="text-[9px] font-mono px-2 py-0.5 bg-white/5 rounded border border-white/10 text-gray-400 uppercase font-bold">TYPE_APPLICATION_OVERLAY</span>
+              <span class="text-[9px] font-mono px-2 py-0.5 bg-white/5 rounded border border-white/10 text-gray-400 uppercase font-bold">MD5_REGEX_STRICT</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
+            <!-- Left Side: Result Display -->
+            <div class="flex flex-col justify-center items-center bg-[#050810] rounded-2xl border border-white/5 p-6 relative overflow-hidden min-h-[220px]">
+              <div class="absolute top-0 left-0 w-full p-2.5 text-[9px] font-mono text-gray-500 uppercase tracking-widest bg-white/[0.01] border-b border-white/5 flex justify-between">
+                <span>Normalization Output Module</span>
+                <span>STATE: READY</span>
+              </div>
+              
+              <!-- Dice container -->
+              <div class="flex gap-4 mb-4 mt-4">
+                <div id="dice-1" class="w-14 h-14 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-4xl shadow-inner text-blue-400 transition-all duration-300">⚀</div>
+                <div id="dice-2" class="w-14 h-14 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-4xl shadow-inner text-blue-400 transition-all duration-300">⚀</div>
+                <div id="dice-3" class="w-14 h-14 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-4xl shadow-inner text-blue-400 transition-all duration-300">⚀</div>
+              </div>
+
+              <!-- Result Text -->
+              <div class="text-center">
+                <div id="sim-result" class="text-4xl font-extrabold text-blue-400 tracking-wider mb-1 font-space">---</div>
+                <div id="sim-sum" class="text-xs text-gray-400 font-mono uppercase tracking-wider">Tổng điểm xúc xắc: --</div>
+              </div>
+            </div>
+
+            <!-- Right Side: Inputs & Console Output -->
+            <div class="flex flex-col gap-3">
+              <!-- MD5 Input -->
+              <div class="flex flex-col gap-1.5">
+                <label class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Nhập Chuỗi MD5 (32 ký tự)</label>
+                <div class="flex gap-2">
+                  <input id="md5-input" type="text" class="flex-1 bg-[#050810] border border-white/10 rounded-xl p-2.5 font-mono text-xs focus:outline-none focus:border-emerald-500 transition-all text-white placeholder:text-white/10" placeholder="e.g. 71b3e8c9735d64cbb0f6d62a34b288e4" value="71b3e8c9735d64cbb0f6d62a34b288e4">
+                  <button id="btn-paste-md5" class="bg-white/5 hover:bg-white/10 border border-white/10 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer">DÁN</button>
+                  <button id="btn-rand-md5" class="bg-emerald-500/10 border border-emerald-500/20 hover:bg-emerald-500/20 text-emerald-400 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer" title="Tạo mã ngẫu nhiên">RAND</button>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button id="btn-analyze-md5" class="w-full bg-emerald-600 hover:bg-emerald-500 active:scale-99 text-white py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider shadow-lg shadow-emerald-600/10 cursor-pointer transition-all flex items-center justify-center gap-1.5">
+                <span class="material-symbols-outlined text-sm">analytics</span>
+                Phân tích MD5 ngay
+              </button>
+
+              <!-- Math Console/Terminal -->
+              <div class="flex-1 bg-[#050810] border border-white/5 rounded-xl p-4 font-mono text-[11px] overflow-y-auto leading-relaxed text-gray-400 min-h-[120px] max-h-[140px]">
+                <div class="flex justify-between border-b border-white/5 pb-1 mb-1.5 text-[9px] text-gray-500 font-bold">
+                  <span>TERMINAL MAPPING SHELL</span>
+                  <span>v1.0.2</span>
+                </div>
+                <div id="terminal-content" class="space-y-1">
+                  <div class="text-emerald-500">$ click analyze or random to start mapping...</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CARD 3: HISTORY -->
+        <section id="history-card" class="lg:col-span-8 bg-[#0f172a] border border-white/5 rounded-2xl p-6 flex flex-col shadow-2xl relative transition-all duration-300 hover:border-white/10 min-h-[300px]">
+          <div class="flex justify-between items-center mb-4 pb-2 border-b border-white/5">
+            <h2 class="text-base font-bold text-white tracking-tight flex items-center gap-2">
+              <span class="material-symbols-outlined text-amber-400 text-lg">history</span>
+              Lịch Sử Phân Tích Gần Đây
+            </h2>
+            <button id="btn-clear-history" class="text-[10px] font-bold text-rose-400 hover:text-rose-300 transition-colors uppercase tracking-wider border border-rose-500/20 px-2.5 py-1 rounded-lg bg-rose-500/5 hover:bg-rose-500/10 cursor-pointer">XÓA LỊCH SỬ</button>
+          </div>
+
+          <div class="flex-1 overflow-x-auto border border-white/5 rounded-xl bg-[#050810]">
+            <table class="w-full text-left text-xs font-mono min-w-[500px]">
+              <thead class="bg-white/5 text-[9px] text-gray-400 uppercase tracking-widest font-bold border-b border-white/5">
+                <tr>
+                  <th class="p-3 border-r border-white/5">MD5 (Thu gọn)</th>
+                  <th class="p-3 border-r border-white/5 text-center">Xúc xắc 1-2-3</th>
+                  <th class="p-3 border-r border-white/5 text-center">Tổng điểm</th>
+                  <th class="p-3">Kết quả</th>
+                </tr>
+              </thead>
+              <tbody id="history-rows" class="text-white/70 divide-y divide-white/5">
+                <!-- Row template -->
+                <tr class="hover:bg-white/[0.01]">
+                  <td class="p-3 border-r border-white/5 text-gray-500">71b3e8c9...88e4</td>
+                  <td class="p-3 border-r border-white/5 text-center font-bold">6 - 6 - 5</td>
+                  <td class="p-3 border-r border-white/5 text-center font-bold text-blue-400">17</td>
+                  <td class="p-3 font-bold text-emerald-400">TÀI</td>
+                </tr>
+                <tr class="hover:bg-white/[0.01] bg-white/[0.01]">
+                  <td class="p-3 border-r border-white/5 text-gray-500">01228c2b...cc43</td>
+                  <td class="p-3 border-r border-white/5 text-center font-bold">1 - 4 - 4</td>
+                  <td class="p-3 border-r border-white/5 text-center font-bold text-rose-400">9</td>
+                  <td class="p-3 font-bold text-rose-400">XỈU</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="text-[10px] text-gray-500 italic mt-3">Lịch sử được lưu tạm thời trong trình duyệt phục vụ mô phỏng.</p>
+        </section>
+
+        <!-- CARD 4: INFORMATION & ALGORITHM INFO -->
+        <section id="policy-card" class="lg:col-span-4 bg-gradient-to-br from-[#1e293b] to-[#0f172a] border border-blue-500/10 rounded-2xl p-6 flex flex-col gap-4 shadow-2xl relative transition-all duration-300 hover:border-blue-500/20">
+          <div class="h-12 w-12 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/30">
+            <span class="material-symbols-outlined text-white text-2xl">gavel</span>
+          </div>
+
+          <div>
+            <h3 class="text-base font-bold text-white mb-2">Thông tin & Quy định Thuật toán</h3>
+            <p class="text-xs text-gray-400 leading-relaxed mb-4">
+              Hệ thống áp dụng thuật toán ánh xạ cố định (Deterministic Mapping) từ chuỗi MD5 thành các viên xúc xắc. Phép tính này là hoàn toàn cố định, dựa vào toán học chuẩn xác 100%. Không can thiệp, không kết nối hoặc lấy kết quả ngẫu nhiên từ bất kỳ máy chủ nào.
+            </p>
+            <div class="p-3.5 bg-rose-500/10 border border-rose-500/20 rounded-xl text-[10px] text-rose-300 font-medium leading-relaxed flex gap-2.5">
+              <span class="material-symbols-outlined text-sm text-rose-400 shrink-0">warning</span>
+              <div>
+                <b class="text-rose-200">CẢNH BÁO PHÁP LÝ:</b> Ứng dụng chỉ phục vụ mục đích nghiên cứu, học tập thuật toán mật mã MD5. Nghiêm cấm sử dụng để thực hiện các hành vi trục lợi, gian lận hoặc can thiệp cá cược bất hợp pháp dưới mọi hình thức.
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-auto flex flex-col gap-2.5 pt-4 border-t border-white/5">
+            <a href="/app-debug.apk" download="AGM-MD5-Floating-Analyzer.apk" class="w-full py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer transition-all flex items-center justify-center gap-1 shadow-lg shadow-blue-500/20 text-center no-underline">
+              <span class="material-symbols-outlined text-sm animate-bounce">download</span>
+              Tải xuống Android APK
+            </a>
+            <button id="btn-show-rules" class="w-full py-2.5 bg-white/5 hover:bg-white/10 active:scale-98 border border-white/10 rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer transition-all flex items-center justify-center gap-1">
+              <span class="material-symbols-outlined text-sm">menu_book</span>
+              Quy tắc thuật toán chi tiết
+            </button>
+            <button id="btn-logout" class="w-full py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded-xl text-xs font-bold uppercase tracking-wider cursor-pointer transition-all flex items-center justify-center gap-1 border border-rose-500/10">
+              <span class="material-symbols-outlined text-sm">logout</span>
+              Đăng xuất thiết bị (Reset)
+            </button>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="py-3 px-6 bg-black/40 rounded-xl border border-white/5 flex flex-col md:flex-row justify-between items-center gap-3">
+        <div class="flex flex-wrap items-center gap-4 text-[10px] font-mono text-gray-500 uppercase tracking-wide justify-center md:justify-start">
+          <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-blue-500 rounded-full"></span> INST_ID: <span id="footer-inst-id" class="text-gray-400">8821-44af-8882</span></span>
+          <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span> OVERLAY: <span class="text-gray-400">ENABLED</span></span>
+          <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 bg-indigo-500 rounded-full"></span> BACKEND: <span id="ping-time" class="text-gray-400">LATENCY 14ms</span></span>
+        </div>
+        <div class="text-[10px] font-bold text-gray-600 uppercase tracking-widest font-space">
+          © 2026 AGM NETWORK GROUP
+        </div>
+      </footer>
+    </div>
+
+
+    <!-- ==========================================
+         FLOATING OVERLAY BUBBLE & DIALOG SIMULATOR
+         ========================================== -->
+    <div id="floating-system" class="fixed bottom-6 right-6 z-50">
+      
+      <!-- Expanded Interactive Overlay Dialog (Bubble Content) -->
+      <div id="overlay-bubble-panel" class="absolute bottom-16 right-0 w-[280px] bg-[#0a0f1d]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden hidden animate-scaleIn transition-all duration-300">
+        <!-- Floating title bar -->
+        <div class="bg-blue-600 p-2 text-center text-[10px] font-black uppercase flex justify-between px-3 select-none">
+          <span class="flex items-center gap-1 text-white"><span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span> AGM FLOATING BUBBLE</span>
+          <div class="flex gap-1.5 items-center">
+            <span id="btn-minimize-bubble" class="material-symbols-outlined text-xs hover:text-white/70 cursor-pointer">minimize</span>
+          </div>
+        </div>
+
+        <div class="p-4 flex flex-col gap-3">
+          <div class="flex flex-col gap-1">
+            <label class="text-[8px] text-gray-500 uppercase font-bold tracking-wider">Nhập mã MD5 (32 ký tự)</label>
+            <div class="flex gap-1.5">
+              <input id="bubble-md5-input" type="text" placeholder="Nhập MD5..." class="flex-1 bg-black/40 border border-white/10 rounded-lg p-2 text-[10px] font-mono focus:outline-none focus:border-blue-500 text-white" value="71b3e8c9735d64cbb0f6d62a34b288e4">
+              <button id="btn-bubble-paste" class="bg-white/5 hover:bg-white/10 border border-white/10 px-1.5 rounded text-[8px] font-bold">DÁN</button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <button id="btn-bubble-analyze" class="bg-blue-600 hover:bg-blue-500 active:scale-95 text-white py-2 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer">PHÂN TÍCH</button>
+            <button id="btn-bubble-clear" class="bg-white/5 hover:bg-white/10 border border-white/10 text-white py-2 rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all cursor-pointer">XÓA</button>
+          </div>
+
+          <!-- Bubble Results -->
+          <div id="bubble-results-box" class="flex items-center justify-between mt-1 pt-2 border-t border-white/5">
+            <div class="flex gap-1">
+              <div id="bubble-dice-1" class="w-6 h-6 bg-white/5 rounded border border-white/10 text-xs flex items-center justify-center text-blue-400">⚀</div>
+              <div id="bubble-dice-2" class="w-6 h-6 bg-white/5 rounded border border-white/10 text-xs flex items-center justify-center text-blue-400">⚀</div>
+              <div id="bubble-dice-3" class="w-6 h-6 bg-white/5 rounded border border-white/10 text-xs flex items-center justify-center text-blue-400">⚀</div>
+            </div>
+            <div id="bubble-result-text" class="text-xs font-black text-blue-400 uppercase tracking-widest font-space">-- (--)</div>
+          </div>
+
+          <p class="text-[8px] text-gray-500 text-center italic mt-1 leading-normal">Kéo giữ nút tròn màu xanh để di chuyển bong bóng</p>
+        </div>
+      </div>
+
+      <!-- Drag-and-drop Bubble Overlay Button -->
+      <div id="overlay-bubble-btn" class="w-14 h-14 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-full shadow-2xl flex items-center justify-center border-4 border-white/10 hover:scale-105 active:scale-95 cursor-pointer transition-transform relative select-none animate-bounceUpDown">
+        <span class="material-symbols-outlined text-white text-2xl animate-pulse">sports_esports</span>
+        <!-- Floating notification badge -->
+        <span class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border border-white/30 rounded-full animate-ping"></span>
+        <span class="absolute -top-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border border-white/30 rounded-full"></span>
+      </div>
+
+    </div>
+
+    <!-- Algorithm Rules Modal Dialog -->
+    <div id="rules-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden">
+      <div class="bg-[#0f172a] border border-white/10 rounded-2xl p-6 max-w-lg w-full shadow-2xl relative animate-scaleIn">
+        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-emerald-400">menu_book</span>
+          Chi Tiết Thuật Toán Phân Tích
+        </h3>
+        
+        <div class="space-y-4 text-xs leading-relaxed text-gray-300 font-mono">
+          <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+            <span class="text-blue-400 font-bold">BƯỚC 1:</span> Lấy chuỗi MD5 32 ký tự dạng hệ thập lục phân (HEX) làm đầu vào.
+          </div>
+          <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+            <span class="text-blue-400 font-bold">BƯỚC 2:</span> Trích xuất 6 ký tự đầu tiên của chuỗi, chia thành 3 cặp (mỗi cặp 2 ký tự).
+            <div class="mt-1 text-gray-500">Ví dụ: `71b3e8` &rarr; Cặp 1: `71`, Cặp 2: `b3`, Cặp 3: `e8`.</div>
+          </div>
+          <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+            <span class="text-blue-400 font-bold">BƯỚC 3:</span> Đổi từng cặp từ hệ 16 (HEX) sang hệ 10 (DECIMAL).
+            <div class="mt-1 text-gray-500">Ví dụ: `71` (HEX) &rarr; `113` (DEC).</div>
+          </div>
+          <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+            <span class="text-blue-400 font-bold">BƯỚC 4:</span> Ánh xạ từng số DECIMAL thành điểm xúc xắc (1 đến 6) bằng công thức:
+            <div class="my-1.5 font-bold text-center text-emerald-400 p-2 bg-[#050810] rounded border border-white/5">
+              DiceValue = (DecimalValue % 6) + 1
+            </div>
+            <div class="text-gray-500">Ví dụ: `(113 % 6) + 1` &rarr; `5 + 1` &rarr; `6`.</div>
+          </div>
+          <div class="p-3 bg-white/5 rounded-xl border border-white/5">
+            <span class="text-blue-400 font-bold">BƯỚC 5:</span> Cộng tổng điểm 3 viên xúc xắc:
+            <div class="mt-1 font-semibold text-gray-400">
+              - Nếu tổng &isin; [3, 10] &rarr; <span class="text-rose-400 font-bold">XỈU</span><br>
+              - Nếu tổng &isin; [11, 18] &rarr; <span class="text-emerald-400 font-bold">TÀI</span>
+            </div>
+          </div>
+        </div>
+
+        <button id="btn-close-rules" class="mt-5 w-full py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-bold text-xs uppercase tracking-wider cursor-pointer transition-all">Đóng bảng quy tắc</button>
+      </div>
+    </div>
+
+
+    <!-- ==========================================
+         JAVASCRIPT CODE FOR INTERACTIVE LOGIC
+         ========================================== -->
+    <script>
+      // Global State
+      let installationId = '';
+      let authToken = '';
+      let activeSessionEnd = null;
+      let timerInterval = null;
+      let appHistory = [];
+
+      const UnicodeDice = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+
+      // Element Selectors
+      const instIdDisplay = document.getElementById('inst-id-display');
+      const footerInstId = document.getElementById('footer-inst-id');
+      const keyInput = document.getElementById('key-input');
+      const btnVerifyKey = document.getElementById('btn-verify-key');
+      const btnGetKey = document.getElementById('btn-get-key');
+      const expirationBox = document.getElementById('expiration-box');
+      const timerDisplay = document.getElementById('timer-display');
+      const progressBar = document.getElementById('progress-bar');
+      const accessBadge = document.getElementById('access-badge');
+      const keyDetailBox = document.getElementById('key-detail-box');
+      const detailKey = document.getElementById('detail-key');
+      const detailLink = document.getElementById('detail-link');
+
+      // Simulation selectors
+      const md5Input = document.getElementById('md5-input');
+      const btnPasteMd5 = document.getElementById('btn-paste-md5');
+      const btnRandMd5 = document.getElementById('btn-rand-md5');
+      const btnAnalyzeMd5 = document.getElementById('btn-analyze-md5');
+      const dice1 = document.getElementById('dice-1');
+      const dice2 = document.getElementById('dice-2');
+      const dice3 = document.getElementById('dice-3');
+      const simResult = document.getElementById('sim-result');
+      const simSum = document.getElementById('sim-sum');
+      const terminalContent = document.getElementById('terminal-content');
+      const historyRows = document.getElementById('history-rows');
+      const btnClearHistory = document.getElementById('btn-clear-history');
+
+      // Floating System selectors
+      const floatingSystem = document.getElementById('floating-system');
+      const overlayBubbleBtn = document.getElementById('overlay-bubble-btn');
+      const overlayBubblePanel = document.getElementById('overlay-bubble-panel');
+      const btnMinimizeBubble = document.getElementById('btn-minimize-bubble');
+      const bubbleMd5Input = document.getElementById('bubble-md5-input');
+      const btnBubblePaste = document.getElementById('btn-bubble-paste');
+      const btnBubbleAnalyze = document.getElementById('btn-bubble-analyze');
+      const btnBubbleClear = document.getElementById('btn-bubble-clear');
+      const bubbleDice1 = document.getElementById('bubble-dice-1');
+      const bubbleDice2 = document.getElementById('bubble-dice-2');
+      const bubbleDice3 = document.getElementById('bubble-dice-3');
+      const bubbleResultText = document.getElementById('bubble-result-text');
+
+      // Modal & other
+      const btnShowRules = document.getElementById('btn-show-rules');
+      const rulesModal = document.getElementById('rules-modal');
+      const btnCloseRules = document.getElementById('btn-close-rules');
+      const btnLogout = document.getElementById('btn-logout');
+      const pingTime = document.getElementById('ping-time');
+
+      // Custom Animations in CSS
+      const styleSheet = document.createElement("style");
+      styleSheet.innerText = `
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        @keyframes bounceUpDown { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        .animate-fadeIn { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-scaleIn { animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .animate-bounceUpDown { animation: bounceUpDown 4s ease-in-out infinite; }
+      `;
+      document.head.appendChild(styleSheet);
+
+
+      // ==========================================
+      // INITIALIZATION
+      // ==========================================
+      function init() {
+        // 1. Generate or load Installation ID
+        installationId = localStorage.getItem('agm_installation_id');
+        if (!installationId) {
+          installationId = generateUuid();
+          localStorage.setItem('agm_installation_id', installationId);
+        }
+        instIdDisplay.textContent = installationId;
+        footerInstId.textContent = installationId;
+
+        // 2. Load Auth Token
+        authToken = localStorage.getItem('agm_auth_token');
+        const sessionExpiry = localStorage.getItem('agm_session_expiry');
+        if (authToken && sessionExpiry) {
+          const expiryDate = new Date(sessionExpiry);
+          if (expiryDate.getTime() > Date.now()) {
+            activeSessionEnd = expiryDate;
+            setVerifiedUI(true);
+            startCountdown();
+            addTerminalLine("[✓] Đã phục hồi phiên làm việc đã kích hoạt cũ thành công.");
+          } else {
+            localStorage.removeItem('agm_auth_token');
+            localStorage.removeItem('agm_session_expiry');
+            authToken = '';
+            addTerminalLine("[!] Phiên kích hoạt trước đó đã hết hạn.");
+          }
+        }
+
+        // 3. Load History
+        const savedHistory = localStorage.getItem('agm_mapping_history');
+        if (savedHistory) {
+          try {
+            appHistory = JSON.parse(savedHistory);
+            renderHistory();
+          } catch(e) {
+            appHistory = [];
+          }
+        } else {
+          // Default history items
+          appHistory = [
+            { md5: '71b3e8c9735d64cbb0f6d62a34b288e4', sequence: '6 - 6 - 5', total: 17, result: 'TÀI' },
+            { md5: '01228c2bcc4307a07b7bdf0fca2dc0f8', sequence: '1 - 4 - 4', total: 9, result: 'XỈU' }
+          ];
+          saveHistory();
+          renderHistory();
+        }
+
+        // 4. Measure Network Latency
+        measureLatency();
+
+        // 5. Initialize Drag on Floating bubble
+        setupDragAndDrop();
+
+        // Run default simulation
+        analyzeMD5Hash(md5Input.value, false);
+      }
+
+      function generateUuid() {
+        return 'xxxx-xxxx-xxxx'.replace(/[xy]/g, function(c) {
+          var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        }).toUpperCase();
+      }
+
+      function measureLatency() {
+        const start = Date.now();
+        fetch('/api/health')
+          .then(res => res.json())
+          .then(() => {
+            const diff = Date.now() - start;
+            pingTime.textContent = `LATENCY ${diff}ms`;
+          })
+          .catch(() => {
+            pingTime.textContent = `OFFLINE / COOLDOWN`;
+          });
+      }
+
+
+      // ==========================================
+      // API ACTIONS
+      // ==========================================
+      
+      // Get Key (Calls backend)
+      btnGetKey.addEventListener('click', async () => {
+        addTerminalLine("[...] Đang gửi yêu cầu tạo Key lên Server...");
+        try {
+          const res = await fetch('/api/key/create', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ installationId })
+          });
+          const data = await res.json();
+
+          if (data.success) {
+            keyInput.value = data.key;
+            
+            // Show details card
+            keyDetailBox.classList.remove('hidden');
+            detailKey.textContent = data.key;
+            detailLink.href = data.bypassUrl;
+            detailLink.textContent = data.bypassUrl;
+
+            addTerminalLine(`[✓] Tạo thành công: ${data.key}`);
+            addTerminalLine(`[>] URL vượt link Link4m: ${data.bypassUrl}`);
+            showNotification("Key và Link rút gọn đã được tạo! Vui lòng bấm vào Link vượt để kích hoạt.");
+          } else {
+            addTerminalLine(`[❌] Máy chủ báo lỗi: ${data.message}`);
+            alert(`Lỗi: ${data.message}`);
+          }
+        } catch(err) {
+          addTerminalLine("[❌] Không thể kết nối với Máy Chủ Backend.");
+          alert("Lỗi kết nối máy chủ. Hãy đảm bảo máy chủ backend đang chạy!");
+        }
+      });
+
+      // Verify Key (Calls backend)
+      btnVerifyKey.addEventListener('click', async () => {
+        const key = keyInput.value.trim();
+        if (!key) {
+          alert("Vui lòng nhập Key kích hoạt.");
+          return;
+        }
+
+        addTerminalLine(`[...] Đang xác minh kích hoạt cho Key: ${key}...`);
+        try {
+          const res = await fetch('/api/access/check', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ installationId, key })
+          });
+          const data = await res.json();
+
+          if (data.success) {
+            authToken = data.token;
+            activeSessionEnd = new Date(data.expiresAt);
+            localStorage.setItem('agm_auth_token', authToken);
+            localStorage.setItem('agm_session_expiry', data.expiresAt);
+
+            setVerifiedUI(true);
+            startCountdown();
+            addTerminalLine("[✓] KÍCH HOẠT THÀNH CÔNG! Thiết bị đã được mở khóa.");
+            showNotification("Chúc mừng! Thiết bị đã được kích hoạt thành công.");
+          } else {
+            addTerminalLine(`[❌] Xác minh thất bại: ${data.message}`);
+            alert(`Thất bại: ${data.message}`);
+          }
+        } catch(err) {
+          addTerminalLine("[❌] Lỗi đường truyền kết nối khi kích hoạt.");
+          alert("Lỗi kết nối máy chủ.");
+        }
+      });
+
+      // Logout / Reset
+      async function handleLogout() {
+        addTerminalLine("[...] Đang hủy phiên làm việc...");
+        if (authToken) {
+          try {
+            await fetch('/api/access/logout', {
+              method: 'POST',
+              headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${authToken}`
+              }
+            });
+          } catch(e) {}
+        }
+        
+        localStorage.removeItem('agm_auth_token');
+        localStorage.removeItem('agm_session_expiry');
+        authToken = '';
+        activeSessionEnd = null;
+        if (timerInterval) clearInterval(timerInterval);
+        
+        setVerifiedUI(false);
+        keyInput.value = '';
+        keyDetailBox.classList.add('hidden');
+        addTerminalLine("[!] Đã đăng xuất và khóa thiết bị thành công.");
+      }
+      btnLogout.addEventListener('click', handleLogout);
+
+
+      // ==========================================
+      // TIMERS & COUNTDOWN
+      // ==========================================
+      function setVerifiedUI(verified) {
+        if (verified) {
+          accessBadge.className = "px-3.5 py-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all";
+          accessBadge.innerHTML = `<span class="material-symbols-outlined text-sm animate-pulse">verified</span> <span>VERIFIED ACCESS</span>`;
+          expirationBox.classList.remove('hidden');
+        } else {
+          accessBadge.className = "px-3.5 py-1.5 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-lg text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all";
+          accessBadge.innerHTML = `<span class="material-symbols-outlined text-sm">lock</span> <span>UNVERIFIED ACCESS</span>`;
+          expirationBox.classList.add('hidden');
+        }
+      }
+
+      function startCountdown() {
+        if (timerInterval) clearInterval(timerInterval);
+
+        const totalDuration = 2 * 60 * 60 * 1000; // 2 hours
+
+        timerInterval = setInterval(() => {
+          if (!activeSessionEnd) return;
+
+          const remaining = activeSessionEnd.getTime() - Date.now();
+          if (remaining <= 0) {
+            clearInterval(timerInterval);
+            handleLogout();
+            alert("Mã truy cập đã hết hạn 2 giờ sử dụng. Thiết bị đã bị khóa lại.");
+            return;
+          }
+
+          // Format time
+          const hours = Math.floor(remaining / (3600 * 1000)).toString().padStart(2, '0');
+          const minutes = Math.floor((remaining % (3600 * 1000)) / (60 * 1000)).toString().padStart(2, '0');
+          const seconds = Math.floor((remaining % (60 * 1000)) / 1000).toString().padStart(2, '0');
+
+          timerDisplay.textContent = `${hours}:${minutes}:${seconds}`;
+
+          // Update Progress
+          const pct = Math.max(0, Math.min(100, (remaining / totalDuration) * 100));
+          progressBar.style.width = `${pct}%`;
+        }, 1000);
+      }
+
+
+      // ==========================================
+      // DETERMINISTIC ALGORITHM & SIMULATOR
+      // ==========================================
+      function analyzeMD5Hash(hashString, saveToHistory = true) {
+        const cleanHash = hashString.toLowerCase().trim();
+        
+        // 1. Validate hash
+        const regex = /^[a-f0-9]{32}$/;
+        if (!regex.test(cleanHash)) {
+          addTerminalLine(`[❌] Sai định dạng MD5: "${hashString}" (phải là 32 ký tự Hex)`);
+          if (saveToHistory) alert("Sai định dạng mã MD5! Vui lòng nhập đúng 32 ký tự hex (0-9, a-f).");
+          return null;
+        }
+
+        // 2. Perform math
+        const firstSix = cleanHash.substring(0, 6);
+        const pair1 = firstSix.substring(0, 2);
+        const pair2 = firstSix.substring(2, 4);
+        const pair3 = firstSix.substring(4, 6);
+
+        const dec1 = parseInt(pair1, 16);
+        const dec2 = parseInt(pair2, 16);
+        const dec3 = parseInt(pair3, 16);
+
+        const d1 = (dec1 % 6) + 1;
+        const d2 = (dec2 % 6) + 1;
+        const d3 = (dec3 % 6) + 1;
+
+        const total = d1 + d2 + d3;
+        const outcome = total >= 11 ? 'TÀI' : 'XỈU';
+
+        // 3. Update main displays
+        dice1.textContent = UnicodeDice[d1 - 1];
+        dice2.textContent = UnicodeDice[d2 - 1];
+        dice3.textContent = UnicodeDice[d3 - 1];
+
+        simResult.textContent = outcome;
+        if (outcome === 'TÀI') {
+          simResult.className = "text-4xl font-extrabold text-emerald-400 tracking-wider mb-1 font-space scale-105 transition-all duration-200";
+        } else {
+          simResult.className = "text-4xl font-extrabold text-rose-400 tracking-wider mb-1 font-space scale-105 transition-all duration-200";
+        }
+        simSum.textContent = `TỔNG ĐIỂM XÚC XẮC: ${total} (${d1} - ${d2} - ${d3})`;
+
+        // 4. Print logs in terminal
+        terminalContent.innerHTML = ''; // Clear terminal logs
+        addTerminalLine(`$ analyze --hash=${cleanHash.substring(0, 10)}...${cleanHash.substring(24)}`);
+        addTerminalLine(`> Lấy 6 ký tự đầu: "${firstSix}"`);
+        addTerminalLine(`> Phân rã & đổi Decimal: ${pair1}&rarr;${dec1}, ${pair2}&rarr;${dec2}, ${pair3}&rarr;${dec3}`);
+        addTerminalLine(`> Viên 1: (${dec1} % 6) + 1 = ${d1}`);
+        addTerminalLine(`> Viên 2: (${dec2} % 6) + 1 = ${d2}`);
+        addTerminalLine(`> Viên 3: (${dec3} % 6) + 1 = ${d3}`);
+        addTerminalLine(`[✓] Tổng: ${total} điểm &rarr; Kết quả: ${outcome}`);
+
+        // Update bubble displays
+        bubbleDice1.textContent = UnicodeDice[d1 - 1];
+        bubbleDice2.textContent = UnicodeDice[d2 - 1];
+        bubbleDice3.textContent = UnicodeDice[d3 - 1];
+        bubbleResultText.textContent = `${outcome} (${total})`;
+        if (outcome === 'TÀI') {
+          bubbleResultText.className = "text-xs font-black text-emerald-400 uppercase tracking-widest font-space";
+        } else {
+          bubbleResultText.className = "text-xs font-black text-rose-400 uppercase tracking-widest font-space";
+        }
+
+        // 5. Add to history
+        if (saveToHistory) {
+          const item = {
+            md5: cleanHash,
+            sequence: `${d1} - ${d2} - ${d3}`,
+            total: total,
+            result: outcome
+          };
+          appHistory.unshift(item);
+          if (appHistory.length > 20) appHistory.pop(); // Max 20 items
+          saveHistory();
+          renderHistory();
+        }
+
+        return { outcome, total, sequence: `${d1} - ${d2} - ${d3}` };
+      }
+
+      function addTerminalLine(text) {
+        const line = document.createElement('div');
+        line.innerHTML = text;
+        terminalContent.appendChild(line);
+        terminalContent.scrollTop = terminalContent.scrollHeight;
+      }
+
+      function saveHistory() {
+        localStorage.setItem('agm_mapping_history', JSON.stringify(appHistory));
+      }
+
+      function renderHistory() {
+        historyRows.innerHTML = '';
+        if (appHistory.length === 0) {
+          historyRows.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-gray-500">Chưa có lịch sử mô phỏng.</td></tr>`;
+          return;
+        }
+
+        appHistory.forEach((item, idx) => {
+          const bgClass = idx % 2 === 1 ? 'bg-white/[0.01]' : '';
+          const resultColorClass = item.result === 'TÀI' ? 'text-emerald-400' : 'text-rose-400';
+          const totalColorClass = item.result === 'TÀI' ? 'text-blue-400' : 'text-rose-400';
+
+          const shortMd5 = `${item.md5.substring(0, 8)}...${item.md5.substring(24)}`;
+
+          const row = document.createElement('tr');
+          row.className = `hover:bg-white/[0.02] border-b border-white/5 ${bgClass} transition-colors`;
+          row.innerHTML = `
+            <td class="p-3 border-r border-white/5 text-gray-400 font-mono select-all cursor-pointer" title="Double click to copy">${shortMd5}</td>
+            <td class="p-3 border-r border-white/5 text-center font-bold text-gray-300">${item.sequence}</td>
+            <td class="p-3 border-r border-white/5 text-center font-bold ${totalColorClass}">${item.total}</td>
+            <td class="p-3 font-extrabold ${resultColorClass}">${item.result}</td>
+          `;
+
+          // Copy on double click
+          row.querySelector('td').addEventListener('dblclick', () => {
+            navigator.clipboard.writeText(item.md5);
+            addTerminalLine(`[!] Đã sao chép MD5 đầy đủ vào Clipboard.`);
+          });
+
+          historyRows.appendChild(row);
+        });
+      }
+
+
+      // ==========================================
+      // SIMULATOR CONTROL INTERFACE ACTIONS
+      // ==========================================
+      
+      // Paste MD5
+      btnPasteMd5.addEventListener('click', async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          if (text) {
+            md5Input.value = text;
+            addTerminalLine("[!] Đã dán MD5 từ Clipboard.");
+          }
+        } catch(e) {
+          addTerminalLine("[!] Vui lòng tự dán trực tiếp vào ô input.");
+        }
+      });
+
+      // Generate Random MD5
+      btnRandMd5.addEventListener('click', () => {
+        const chars = 'abcdef0123456789';
+        let randomHash = '';
+        for (let i = 0; i < 32; i++) {
+          randomHash += chars[Math.floor(Math.random() * chars.length)];
+        }
+        md5Input.value = randomHash;
+        addTerminalLine(`[!] Tạo mã MD5 mô phỏng ngẫu nhiên: ${randomHash}`);
+        analyzeMD5Hash(randomHash, true);
+      });
+
+      // Analyze Trigger
+      btnAnalyzeMd5.addEventListener('click', () => {
+        analyzeMD5Hash(md5Input.value, true);
+      });
+
+      // Clear History
+      btnClearHistory.addEventListener('click', () => {
+        appHistory = [];
+        saveHistory();
+        renderHistory();
+        addTerminalLine("[!] Đã dọn dẹp sạch danh sách lịch sử phân tích.");
+      });
+
+
+      // ==========================================
+      // FLOATING BUBBLE drag-and-drop & expansion
+      // ==========================================
+      function setupDragAndDrop() {
+        let isDragging = false;
+        let startX, startY;
+        let initialX, initialY;
+        let dragThresholdMet = false;
+
+        // Position bubble initially
+        let currentLeft = localStorage.getItem('bubble_pos_x');
+        let currentTop = localStorage.getItem('bubble_pos_y');
+
+        if (currentLeft && currentTop) {
+          floatingSystem.style.left = currentLeft + 'px';
+          floatingSystem.style.top = currentTop + 'px';
+          floatingSystem.style.bottom = 'auto';
+          floatingSystem.style.right = 'auto';
+        }
+
+        overlayBubbleBtn.addEventListener('mousedown', dragStart);
+        overlayBubbleBtn.addEventListener('touchstart', dragStart, { passive: true });
+
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('touchmove', drag, { passive: false });
+
+        document.addEventListener('mouseup', dragEnd);
+        document.addEventListener('touchend', dragEnd);
+
+        function dragStart(e) {
+          isDragging = true;
+          dragThresholdMet = false;
+          
+          const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+          const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+
+          const rect = floatingSystem.getBoundingClientRect();
+          startX = clientX;
+          startY = clientY;
+          initialX = rect.left;
+          initialY = rect.top;
+
+          overlayBubbleBtn.classList.remove('animate-bounceUpDown');
+        }
+
+        function drag(e) {
+          if (!isDragging) return;
+
+          const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+          const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+
+          const dx = clientX - startX;
+          const dy = clientY - startY;
+
+          // Only consider it a drag if moved more than 5px
+          if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+            dragThresholdMet = true;
+          }
+
+          if (dragThresholdMet) {
+            if (e.type === 'touchmove') e.preventDefault(); // Stop scrolling on mobile when dragging
+
+            let nextX = initialX + dx;
+            let nextY = initialY + dy;
+
+            // Bounds check
+            const maxW = window.innerWidth - 60;
+            const maxH = window.innerHeight - 60;
+            
+            nextX = Math.max(10, Math.min(maxW, nextX));
+            nextY = Math.max(10, Math.min(maxH, nextY));
+
+            floatingSystem.style.left = nextX + 'px';
+            floatingSystem.style.top = nextY + 'px';
+            floatingSystem.style.bottom = 'auto';
+            floatingSystem.style.right = 'auto';
+          }
+        }
+
+        function dragEnd() {
+          if (!isDragging) return;
+          isDragging = false;
+
+          const rect = floatingSystem.getBoundingClientRect();
+          localStorage.setItem('bubble_pos_x', rect.left);
+          localStorage.setItem('bubble_pos_y', rect.top);
+
+          // Click handler if it wasn't a major drag
+          if (!dragThresholdMet) {
+            toggleBubblePanel();
+          }
+        }
+      }
+
+      function toggleBubblePanel() {
+        if (overlayBubblePanel.classList.contains('hidden')) {
+          overlayBubblePanel.classList.remove('hidden');
+          bubbleMd5Input.value = md5Input.value;
+          // Run analysis for the current bubble input
+          const res = analyzeMD5Hash(bubbleMd5Input.value, false);
+          if (res) {
+            addTerminalLine("[!] Đã mở rộng Bong Bóng Nổi trên màn hình.");
+          }
+        } else {
+          overlayBubblePanel.classList.add('hidden');
+        }
+      }
+
+      // Close / Minimize bubble panel
+      btnMinimizeBubble.addEventListener('click', (e) => {
+        e.stopPropagation();
+        overlayBubblePanel.classList.add('hidden');
+      });
+
+      // Bubble Paste
+      btnBubblePaste.addEventListener('click', async () => {
+        try {
+          const text = await navigator.clipboard.readText();
+          if (text) {
+            bubbleMd5Input.value = text;
+          }
+        } catch(e) {}
+      });
+
+      // Bubble Clear
+      btnBubbleClear.addEventListener('click', () => {
+        bubbleMd5Input.value = '';
+        bubbleDice1.textContent = '⚀';
+        bubbleDice2.textContent = '⚀';
+        bubbleDice3.textContent = '⚀';
+        bubbleResultText.textContent = '-- (--)';
+        bubbleResultText.className = "text-xs font-black text-gray-500 uppercase tracking-widest font-space";
+      });
+
+      // Bubble Analyze
+      btnBubbleAnalyze.addEventListener('click', () => {
+        const val = bubbleMd5Input.value;
+        const res = analyzeMD5Hash(val, true); // Save to history
+        if (res) {
+          md5Input.value = val; // Sync with background input
+        }
+      });
+
+
+      // ==========================================
+      // RULE DIALOG MODAL & POLICIES
+      // ==========================================
+      btnShowRules.addEventListener('click', () => {
+        rulesModal.classList.remove('hidden');
+      });
+      btnCloseRules.addEventListener('click', () => {
+        rulesModal.classList.add('hidden');
+      });
+      rulesModal.addEventListener('click', (e) => {
+        if (e.target === rulesModal) {
+          rulesModal.classList.add('hidden');
+        }
+      });
+
+
+      // ==========================================
+      // NOTIFICATIONS
+      // ==========================================
+      function showNotification(message) {
+        if (!("Notification" in window)) {
+          return;
+        } else if (Notification.permission === "granted") {
+          new Notification("AGM MD5 FLOATING ANALYZER", { body: message });
+        } else if (Notification.permission !== "denied") {
+          Notification.requestPermission();
+        }
+      }
+
+      // Initialize
+      window.addEventListener('DOMContentLoaded', init);
+    </script>
+  </body>
+</html>

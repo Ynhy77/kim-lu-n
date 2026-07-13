@@ -1,0 +1,6 @@
+{
+  "name": "AGM MD5 FLOATING ANALYZER",
+  "description": "Premium full-stack companion dashboard and cryptographic mapping simulator styled in a distinctive Bento Grid layout.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
